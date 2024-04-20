@@ -22,11 +22,11 @@ class DaikeiUpperNode : public rclcpp::Node
 };
 
 void DaikeiUpperNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg){
-  if(msg->buttons[1] == 1){
-    target_pub4_->publish(robomas::get_target(-900));
+  if(msg->axes[4] == -1){
+    target_pub4_->publish(robomas::get_target(-1885));
   }
-  else if(msg->buttons[0] == 1){
-    target_pub4_->publish(robomas::get_target(900));
+  else if(msg->axes[4] == 1){
+    target_pub4_->publish(robomas::get_target(1885));
   }
   else{
     target_pub4_->publish(robomas::get_target(0));
