@@ -22,17 +22,28 @@ class DaikeiUpperNode : public rclcpp::Node
 };
 
 void DaikeiUpperNode::joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg){
+  if(msg->axes[4] == 1){
+    target_pub4_->publish(robomas::get_target(-330000));
+  }
   if(msg->axes[4] == -1){
-    target_pub4_->publish(robomas::get_target(-1885));
-  }
-  else if(msg->axes[4] == 1){
-    target_pub4_->publish(robomas::get_target(1885));
-  }
-  else{
     target_pub4_->publish(robomas::get_target(0));
   }
   if(msg->buttons[7] == 1){
+    frame_pub_->publish(robomas::get_pos_frame(4,false));
+  }
+  if(msg->buttons[9] == 1){
     frame_pub_->publish(robomas::get_vel_frame(4,false));
+  }
+  if(msg->buttons[10] == 1){
+    if(msg->axes[7] == 1){
+      target_pub4_->publish(robomas::get_target(1885));
+    }
+    else if(msg->axes[7] == -1){
+      target_pub4_->publish(robomas::get_target(-1885));
+    }
+    else{
+      target_pub4_->publish(robomas::get_target(0));
+    }
   }
   if(msg->buttons[6] == 1){
     frame_pub_->publish(robomas::get_dis_frame(4,false));
